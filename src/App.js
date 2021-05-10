@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import './App.css';
+import Menu from './components/Menu';
+import { DISHES } from './shared/dishes'
+
 function App() {
+
+  const[dishes,setDishes] = useState(DISHES)
   return (
-    <div className="App">
+    <div>
       <Navbar dark color ="primary">
         <div className="container">
           <NavbarBrand href='/'>
@@ -11,6 +16,7 @@ function App() {
           </NavbarBrand>
         </div>
       </Navbar>
+      <Menu dishes={dishes}/>
     </div>
   );
 }
