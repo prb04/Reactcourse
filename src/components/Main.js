@@ -26,7 +26,7 @@ function Main() {
                 dishes = {dishes}
                 onClick = {(dishId) => handleClick(dishId)}                 
             />
-            <Dishdetail dish={dishes} />
+            <Dishdetail dish={dishes.filter((dish) => dish.id===selectedDish)[0]} />
         </div>
     );
   
