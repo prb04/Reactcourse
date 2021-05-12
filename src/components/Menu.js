@@ -1,64 +1,28 @@
-import React, { useState } from 'react'
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
+import React from 'react'
+import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 
-function Menu(props) {
-    
-    const[selectedDish,setsselectedDish] = useState(null);
 
-    function handleClick(dish){
-        console.log(dish);
-        setsselectedDish(dish)
-    }
-
-    function onDishselect(dish){
-        if(dish!=null){
-            return(
-                <Card>
-                    <CardImg top src={dish.image} alt={dish.name} />
-                    <CardBody>
-                        <CardTitle>{dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
-
-            )
-            
-        }else{
-            return(
-                <div>
-
-                </div>
-            )
-        }
-    }   
-
-    const menu = props.dishes.map(dish => {
+function Menu(props) {  
+    let dishes = props.dishes
+    const menu = dishes.map(dish => {
         return(
-        <div  className="col-12 col-md-5 m-1">
-            <Card key={dish.id} onClick = {() =>handleClick(dish)}>
-                <CardImg width='100%' src={dish.image} alt={dish.name} />
-                <CardImgOverlay>
-                    <CardTitle>{dish.name}</CardTitle>
-                </CardImgOverlay>
-            </Card>
-        </div>
+            <div key={dish.id} className="col-12 col-md-5 m-1">
+                <Card onClick = {() => props.onClick(dish.id)}>
+                    <CardImg width='100%' src={dish.image} alt={dish.name} />
+                    <CardImgOverlay>
+                        <CardTitle>{dish.name}</CardTitle>
+                    </CardImgOverlay>
+                </Card>
+            </div>
         )
     })
     return (
         <div className="container">
-
             <div className="row">
-              {menu}
+                {menu}
             </div>
-
-            <div className="row">
-                <div className="col-12 col-md-5 m-1">
-                    {onDishselect(selectedDish)}
-                </div>
-            </div>
-
         </div>
     )
 }
 
-export default Menu
+export default Menu;
