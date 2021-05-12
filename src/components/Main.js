@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Navbar, NavbarBrand } from "reactstrap";
 import Menu from './Menu';
 import { DISHES } from '../shared/dishes'
 import Dishdetail from './Dishdetail'; 
+import Header from "./Header";
+import Footer from "./Footer";
+import { Redirect, Route, Switch } from "react-router";
+import Home from "./Home";
 
 function Main() {
 
@@ -13,20 +16,19 @@ function Main() {
         setselectedDish(dishId)
     }
 
+    const HomePage = () => {
+        return (<Home />)
+    }
+
     return (
         <div>
-            <Navbar dark color ="primary">
-                <div className="container">
-                <NavbarBrand href='/'>
-                    Ristorante Con Fusion
-                </NavbarBrand>
-                </div>
-            </Navbar>
-            <Menu 
-                dishes = {dishes}
-                onClick = {(dishId) => handleClick(dishId)}                 
-            />
-            <Dishdetail dish={dishes.filter((dish) => dish.id===selectedDish)[0]} />
+            <Header />
+            <Switch>
+                <Route path="/home" component={HomePage} />
+                <Route exact path="/menu" component={() => <Menu dishes={dishes} />} />
+                <Redirect to="/home" />
+            </Switch>          
+            <Footer />
         </div>
     );
   
