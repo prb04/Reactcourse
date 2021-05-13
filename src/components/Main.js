@@ -10,10 +10,11 @@ import Footer from "./Footer";
 import { Redirect, Route, Switch } from "react-router";
 import Home from "./Home";
 import Contact from "./Contact";
+import About from "./About";
 
 function Main() {
 
-    const[dishes, setDishes] = useState(DISHES);
+    const[dishes] = useState(DISHES);
     const[comments] = useState(COMMENTS);
     const[leaders] = useState(LEADERS);
     const[promotions] = useState(PROMOTIONS);
@@ -41,7 +42,7 @@ function Main() {
                 comment={comments.filter(comm => comm.dishId === parseInt(match.params.dishId,10))[0]}
             />
         )
-    } 
+    }
 
     return (
         <div>
@@ -50,6 +51,7 @@ function Main() {
                 <Route path="/home" component={HomePage} />
                 <Route exact path="/menu" component={() => <Menu dishes={dishes} />} />
                 <Route path="/menu/:dishId" component={DishWithId} />
+                <Route path="/aboutus" component={() => <About leaders={leaders} />} />
                 <Route exact path="/contactus" component={Contact} />
                 <Redirect to="/home" />
             </Switch>          
