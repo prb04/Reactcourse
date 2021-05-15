@@ -26,11 +26,9 @@ function Contact() {
         const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
 
-        setContact(prevValue =>{
-            return{
-                ...prevValue,
-                [name]:value,
-            }
+        setContact({
+            ...contact,
+            [name]:value
         })
     }
 
@@ -42,7 +40,10 @@ function Contact() {
 
     const handleBlur = (field) => (evt) =>{
         setContact({
-            touched: {...contact.touched, [field]:true}
+            touched:{
+                ...contact.touched, 
+                [field]:true
+            }
         })
     }
 
@@ -72,7 +73,7 @@ function Contact() {
         if(contact.touched.email && email.split('').filter(x => x === '@').length !==1)
             errors.email = "Email should contain '@' sign";
 
-        return errors
+        return errors;
     }
 
     const errors = validate(contact.firstname,contact.lastname,contact.telnum,contact.email);
