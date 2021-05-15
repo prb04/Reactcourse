@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
-import { Breadcrumb,BreadcrumbItem, Form, FormGroup, Label, Col, Input, Button} from 'reactstrap';
+import { Breadcrumb,BreadcrumbItem, Form, FormGroup, Label, Col, Input, Button, FormFeedback} from 'reactstrap';
 
 
-function Contact(props) {
+function Contact() {
 
     const[contact,setContact] = useState({
         firstname:'',
         lastname:'',
         telnum:'',
         email:'',
-        agree:'false',
+        agree:false,
         message:'',
-        contactType:'Tel'
-    })
-
-    // const[firstname,setfirstname] = useState('');
-    // const[lastname,setlastname] = useState('')
-    // const[telnum,settelnum] = useState('')
-    // const[email,setemail] = useState('')
-    // const[agree,setagree] = useState(false)
-    // const[message,setmessage] = useState('')
-    // const[contactType,setcontactType] = useState('Tel')
-    
+        contactType:'Tel',
+        touched:{
+            firstname: false,
+            lastname:  false,
+            telnum: false,
+            email: false
+        }
+    })   
 
     function handleInputChange(event){
         const target = event.target;
@@ -43,8 +40,45 @@ function Contact(props) {
         event.preventDefault();
     }
 
+    const handleBlur = (field) => (evt) =>{
+        setContact({
+            touched: {...contact.touched, [field]:true}
+        })
+    }
+
+    function validate(firstname,lastname,telnum,email){
+        const errors={
+            firstname:'',
+            lastname:'',
+            telnum:'',
+            email:''
+        };       
+
+        if(contact.touched.firstname && firstname.length<3){
+            errors.firstname='First Name should be more than 3 characters';
+        }else if(contact.touched.firstname && firstname.length > 10){
+            errors.firstname='First Name should be less than 10 characters';
+        }
+        if(contact.touched.lastname && lastname.length < 3){
+            errors.lastname='Last Name should be more than 3 characters';
+        }else if(contact.touched.lastname && lastname.length > 10){
+            errors.lastname='Last Name should be less than 10 characters';
+        }
+
+        const reg = /^\d+$/;
+        if (contact.touched.telnum && !reg.test(telnum))
+            errors.telnum = 'Telephone Number should contain only numbers';
+        
+        if(contact.touched.email && email.split('').filter(x => x === '@').length !==1)
+            errors.email = "Email should contain '@' sign";
+
+        return errors
+    }
+
+    const errors = validate(contact.firstname,contact.lastname,contact.telnum,contact.email);
+
     return(
-        <div className="container">
+        <div className="container"> 
             <div className="row">
                 <Breadcrumb>
                     <BreadcrumbItem><Link to='/home'>Home</Link></BreadcrumbItem>
@@ -93,9 +127,13 @@ function Contact(props) {
                             <Col md={10}>
                                     <Input type="text" id="firstname" name="firstname"
                                         placeholder="First Name"
+                                        valid={errors.firstname === ''}
+                                        invalid={errors.firstname !== ''}
                                         value={contact.firstname}
+                                        onBlur={handleBlur('firstname')}
                                         onChange={handleInputChange}                                                                    
                                     />
+                                    <FormFeedback>{errors.firstname}</FormFeedback>
                             </Col> 
                         </FormGroup>
 
@@ -104,9 +142,14 @@ function Contact(props) {
                             <Col md={10}>
                                     <Input type="text" id="lastname" name="lastname"
                                         placeholder="Last Name"
-                                        value={contact.lastname} 
-                                        onChange={handleInputChange}                                                                   
+                                        valid={errors.lastname === ''}
+                                        invalid={errors.lastname !== ''}
+                                        value={contact.lastname}
+                                        onBlur={handleBlur('lastname')} 
+                                        onChange={handleInputChange}
                                     />
+                                    <FormFeedback>{errors.lastname}</FormFeedback>                                                               
+                                    
                             </Col> 
                         </FormGroup>
 
@@ -115,9 +158,13 @@ function Contact(props) {
                             <Col md={10}>
                                     <Input type="tel" id="telnum" name="telnum"
                                         placeholder="Telephone number"
+                                        valid={errors.telnum === ''}
+                                        invalid={errors.telnum !== ''}
                                         value={contact.telnum}
+                                        onBlur={handleBlur('telnum')}
                                         onChange={handleInputChange}
                                     />
+                                    <FormFeedback>{errors.telnum}</FormFeedback>
                             </Col> 
                         </FormGroup>
 
@@ -126,9 +173,13 @@ function Contact(props) {
                             <Col md={10}>
                                     <Input type="email" id="email" name="email"
                                         placeholder="Email"
+                                        valid={errors.email === ''}
+                                        invalid={errors.email !== ''}
                                         value={contact.email}
+                                        onBlur={handleBlur('email')}
                                         onChange={handleInputChange}                                                                    
                                     />
+                                    <FormFeedback>{errors.email}</FormFeedback>
                             </Col> 
                         </FormGroup>
                         <FormGroup row>
@@ -148,7 +199,7 @@ function Contact(props) {
                                     <Input type="select" name="contactType"
                                             value={contact.contactType}
                                             onChange={handleInputChange}>
-                                        <option>Tel.</option>
+                                        <option>Tel</option>
                                         <option>Email</option>
                                     </Input>
                                 </Col>
