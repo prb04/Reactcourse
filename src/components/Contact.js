@@ -55,22 +55,22 @@ function Contact() {
             email:''
         };       
 
-        if(contact.touched.firstname && firstname.length<3){
+        if(contact.touched?.firstname && firstname?.length<3){
             errors.firstname='First Name should be more than 3 characters';
-        }else if(contact.touched.firstname && firstname.length > 10){
+        }else if(contact.touched?.firstname && firstname?.length > 10){
             errors.firstname='First Name should be less than 10 characters';
         }
-        if(contact.touched.lastname && lastname.length < 3){
+        if(contact.touched?.lastname && lastname?.length < 3){
             errors.lastname='Last Name should be more than 3 characters';
-        }else if(contact.touched.lastname && lastname.length > 10){
+        }else if(contact.touched?.lastname && lastname?.length > 10){
             errors.lastname='Last Name should be less than 10 characters';
         }
 
         const reg = /^\d+$/;
-        if (contact.touched.telnum && !reg.test(telnum))
+        if (contact.touched?.telnum && !reg.test(telnum))
             errors.telnum = 'Telephone Number should contain only numbers';
         
-        if(contact.touched.email && email.split('').filter(x => x === '@').length !==1)
+        if(contact.touched?.email && email?.split('').filter(x => x === '@').length !==1)
             errors.email = "Email should contain '@' sign";
 
         return errors;
