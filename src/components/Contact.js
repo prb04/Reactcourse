@@ -21,14 +21,12 @@ function Contact() {
         }
     })   
 
-    function handleInputChange(event){
-        const target = event.target;
-        const value = target.type === "checkbox" ? target.checked : target.value;
-        const name = target.name;
+    
 
-        setContact({
-            ...contact,
-            [name]:value
+    const handleInputChange = (event) => {
+        const{name,value} = event.target;
+        setContact({...contact,
+            [name]: value
         })
     }
 
@@ -39,15 +37,17 @@ function Contact() {
     }
 
     const handleBlur = (field) => (evt) =>{
+        evt.preventDefault();
         setContact({
             touched:{
                 ...contact.touched, 
-                [field]:true
+                [field]: true
             }
         })
     }
 
-    function validate(firstname,lastname,telnum,email){
+    const validate = (firstname,lastname,telnum,email) => {
+
         const errors={
             firstname:'',
             lastname:'',
@@ -76,7 +76,7 @@ function Contact() {
         return errors;
     }
 
-    const errors = validate(contact.firstname,contact.lastname,contact.telnum,contact.email);
+    const errors = validate(contact.firstname, contact.lastname, contact.telnum, contact.email);
 
     return(
         <div className="container"> 

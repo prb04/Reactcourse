@@ -7,6 +7,12 @@ function Header() {
 
     const[isNavOpen,setisNavOpen] = useState(false);
     const[isModalOpen,setisModalOpen] = useState(false);
+
+    const[data,setData] = useState({
+        username:"",
+        password:"",
+        remember:""
+    })
     
 
     const toggleNav = () =>{
@@ -19,12 +25,17 @@ function Header() {
     }
 
     const handleSubmit = (event) => {
-        const data = new FormData(event.target);
-        console.log(data.get('username'));
+        const{id,value} = event.target;
+
         toggleModal();
-        alert("Username: " + username.value
-            + "Password: " + password.value
-            + "Remember: " + remember.checked);
+        setData(
+            {...data,
+            [id] : value
+            }
+        )
+        alert("Username: " + data.username.value
+            + " Password: " + data.password.value
+            + " Remember: " + data.remember.checked);
         event.preventDefault();
         console.log("dekh baby");
     }
@@ -90,20 +101,20 @@ function Header() {
                     <Form onSubmit={handleSubmit} >
                         <FormGroup>
                             <Label htmlFor="username">Username</Label>
-                            <Input type="text" id="username" name="username" 
-                                innerRef = {(input) => username = input}
+                            <Input type="text" id="username" name="username"
+                            innerRef={input => data.username=input}
                             />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="password">Password</Label>
-                            <Input type="password" id="password" name="password"
-                            innerRef={(input) => password = input} 
+                            <Input type="password" id="password" name="password" 
+                            innerRef={input => data.password=input}
                             />
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
                                 <Input type="checkbox" name="remember" 
-                                 innerRef={input => remember=input}
+                                innerRef={input => data.remember=input}
                                 />
                                 Remember Me
                             </Label>
