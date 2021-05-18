@@ -45,6 +45,7 @@ function Main(props) {
             />
         )
     }
+    console.log("Contact", Contact);
 
     return (
         <div>
