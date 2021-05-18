@@ -1,13 +1,14 @@
+/* eslint-disable react/jsx-pascal-case */
 import React  from 'react';
 import {Link} from 'react-router-dom';
 import { Breadcrumb,BreadcrumbItem,  Label, Col,  Button, Row} from 'reactstrap';
 import {Control, LocalForm, Errors} from 'react-redux-form';
 
-const required = val => val && val.length
-const maxLength = len => val => !val || val.length<=len
-const minLength = len => val => val && val.length>=len
-const isNum = val => !isNaN(Number(val))
-const validEmail = val => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(val)
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => val && (val.length >= len);
+const isNum = (val) => !isNaN(Number(val));
+const validEmail = val => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(val);
 
 function Contact() {
 
@@ -65,7 +66,7 @@ function Contact() {
                         <Row className='form-group'>
                             <Label htmlFor='firstname' md={2}>First Name</Label>
                             <Col md={10}>
-                                    <Control.Text model=".firstname" id="firstname" name="firstname"
+                                    <Control.text model=".firstname" id="firstname" name="firstname"
                                         placeholder="First Name"
                                         className="form-control" 
                                         validators={{
@@ -78,7 +79,7 @@ function Contact() {
                                         model=".firstname"
                                         show = "touched"
                                         messages = {{
-                                            required: "Required",
+                                            required: "Required ",
                                             minLength: 'must be greater than 2 characters',
                                             maxLength: 'must be 16 characters or less'
                                         }}
@@ -89,7 +90,7 @@ function Contact() {
                         <Row className='form-group'>
                             <Label htmlFor='lastname' md={2}>Last Name</Label>
                             <Col md={10}>
-                                    <Control.Text model=".lastname" id="lastname" name="lastname"
+                                    <Control.text model=".lastname" id="lastname" name="lastname"
                                         placeholder="Last Name"
                                         className="form-control"
                                         validators={{
@@ -102,43 +103,42 @@ function Contact() {
                                         model=".lastname"
                                         show = "touched"
                                         messages = {{
-                                            required: "Required",
-                                            minLength: 'must be greater than 2 characters',
-                                            maxLength: 'must be 16 characters or less'
+                                            required: "Required ",
+                                            minLength: 'Must be greater than 2 characters',
+                                            maxLength: 'Must be 16 characters or less'
                                         }}
                                     />                                 
                             </Col> 
                         </Row>
 
-                        <Row className='form-group'>
-                            <Label htmlFor='telnum' md={2}>Contact</Label>
-                            <Col md={10}>
-                                    <Control.Text model=".telnum" id="telnum" name="telnum"
-                                        placeholder="Telephone number"
+                        <Row className="form-group">
+                                <Label htmlFor="telnum" md={2}>Contact Tel.</Label>
+                                <Col md={10}>
+                                    <Control.text model=".telnum" id="telnum" name="telnum"
+                                        placeholder="Tel. Number"
                                         className="form-control"
                                         validators={{
-                                            required, minLength: minLength(3), maxLength: maxLength(16), isNum
-                                        }}                                                                   
-                                    />
-
-                                    <Errors 
+                                            required, minLength: minLength(3), maxLength: maxLength(15), isNum
+                                        }}
+                                         />
+                                    <Errors
                                         className="text-danger"
                                         model=".telnum"
-                                        show = "touched"
-                                        messages = {{
-                                            required: "Required",
-                                            minLength: 'must be greater than 5 numbers',
-                                            maxLength: 'must be 10 numbers or less',
-                                            isNumber : 'Must be a number'
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            minLength: 'Must be greater than 2 numbers',
+                                            maxLength: 'Must be 15 numbers or less',
+                                            isNum: 'Must be a number'
                                         }}
-                                    />     
-                            </Col> 
-                        </Row>
+                                     />
+                                </Col>
+                            </Row>
 
                         <Row className='form-group'>
                             <Label htmlFor='email' md={2}>Email</Label>
                             <Col md={10}>
-                                    <Control.Text model=".email" id="email" name="email"
+                                    <Control.text model=".email" id="email" name="email"
                                         placeholder="Email"
                                         className="form-control"                                                                
                                         validators={{
@@ -161,7 +161,7 @@ function Contact() {
                                 <Col md={{size: 6, offset: 2}}>
                                     <div className="form-check">
                                         <Label check>
-                                            <Control.Checkbox model=".agree"
+                                            <Control.checkbox model=".agree"
                                                 name="agree" className="form-check-input"                                            
                                             /> {' '}
                                             <strong>May we contact you?</strong>
@@ -169,19 +169,19 @@ function Contact() {
                                     </div>
                                 </Col>
                                 <Col md={{size: 3, offset: 1}}>
-                                    <Control.Select model=".contactType" name="contactType" className="form-control">
+                                    <Control.select model=".contactType" name="contactType" className="form-control">
                                         <option>Tel</option>
                                         <option>Email</option>
-                                    </Control.Select>
+                                    </Control.select>
                                 </Col>
                         </Row>
                         <Row className='form-group'>
                                 <Label htmlFor="message" md={2}>Your Feedback</Label>
                                 <Col md={10}>
-                                    <Control.Textarea model=".message" id="message" name="message"
+                                    <Control.textarea model=".message" id="message" name="message"
                                         rows="12" className="form-control"
                                     >
-                                    </Control.Textarea>
+                                    </Control.textarea>
                                 </Col>
                             </Row>
 
