@@ -16,7 +16,7 @@ function RenderDish({dish}) {
     );
 }
 
-function RenderComments({comments}){
+function RenderComments({comments,dishId,addComment}){
     if (comments != null){
         let comms = comments.map((comm, i) => {            
             return(
@@ -37,7 +37,7 @@ function RenderComments({comments}){
                 <h4>Comments</h4>
                 <div>
                     {comms}
-                    <CommentForm />
+                    <CommentForm dishId={dishId} addComment={addComment}  />
                 </div>
                 
             </div>
@@ -55,7 +55,7 @@ const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
-function CommentForm(){
+function CommentForm(props){
 
     const[isModalOpen,setisModalOpen] = useState(false);
 
@@ -64,7 +64,7 @@ function CommentForm(){
     }
 
     const handleSubmit = (values) =>{
-        alert('Current State is ' + JSON.stringify(values));
+        props.addComment(props.dishId,values.rating,values.author,values.comment)
         toggleModal();
     }
 
@@ -175,7 +175,11 @@ const Dishdetail = (props) => {
                     </div>
                     
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={props.comment} />
+                        <RenderComments 
+                            comments={props.comment} 
+                            addComment = {props.addComment} 
+                            dishId = {props.dish.id}
+                        />
                     </div>
                 </div>
             </div>   

@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import Home from "./Home";
 import Contact from "./Contact";
 import About from "./About";
+import {addComment} from "../redux/ActionCreators"
 
 const mapStatetoProps = (state) => {
     return{
@@ -17,6 +18,10 @@ const mapStatetoProps = (state) => {
         promotions: state.promotions
     }
 }
+
+const mapDispatchtoProps = (dispatch) =>({
+    addComment: (dishId,rating,author,comment) => dispatch(addComment(dishId,rating,author,comment))
+})
 
 function Main(props) {
 
@@ -41,6 +46,7 @@ function Main(props) {
             <Dishdetail 
                 dish={props.dishes.filter(dish => dish.id === parseInt(match.params.dishId,10))[0]}
                 comment={props.comments.filter(comm => comm.dishId ===parseInt(match.params.dishId,10))}
+                addComment={props.addComment}
             />
         )
 
@@ -63,4 +69,4 @@ function Main(props) {
   
 }
 
-export default withRouter(connect(mapStatetoProps)(Main));
+export default withRouter(connect(mapStatetoProps, mapDispatchtoProps)(Main));
