@@ -17,7 +17,6 @@ const mapStatetoProps = (state) => {
         promotions: state.promotions
     }
 }
-    
 
 function Main(props) {
 
@@ -41,11 +40,11 @@ function Main(props) {
         return(
             <Dishdetail 
                 dish={props.dishes.filter(dish => dish.id === parseInt(match.params.dishId,10))[0]}
-                comment={props.comments.filter(comm => comm.dishId === parseInt(match.params.dishId,10))[0]}
+                comment={props.comments.filter(comm => comm.dishId ===parseInt(match.params.dishId,10))}
             />
         )
+
     }
-    console.log("Contact", Contact);
 
     return (
         <div>
