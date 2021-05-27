@@ -3,6 +3,7 @@ import React,{useState} from 'react'
 import { Breadcrumb, BreadcrumbItem, Card, CardImg, CardText, CardBody, CardTitle, Button, Label, Row, Col, Modal, ModalHeader, ModalBody} from 'reactstrap';
 import {Link} from 'react-router-dom'
 import {Control, LocalForm, Errors} from 'react-redux-form';
+import { Loading } from './Loading'
 
 function RenderDish({dish}) {
     return(
@@ -131,7 +132,7 @@ function CommentForm(props){
                                         model=".comment" 
                                         id="comment" 
                                         name="comment" 
-                                        rows="6     " 
+                                        rows="6" 
                                         className="form-control" 
                                         validators={{ required }} 
                                     />
@@ -154,7 +155,24 @@ function CommentForm(props){
     )
 }
 
-const Dishdetail = (props) => {
+const Dishdetail = (props) => { 
+    if(props.isLoading){
+        return (
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        )
+    } else if(props.errMess){
+        return(
+            <div className="container">
+                <div className="row">
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        )
+    }
     if (props.dish != null) {   
         return (
             <div className="container">
