@@ -2,7 +2,7 @@
 import React  from 'react';
 import {Link} from 'react-router-dom';
 import { Breadcrumb,BreadcrumbItem,  Label, Col,  Button, Row} from 'reactstrap';
-import {Control, LocalForm, Errors} from 'react-redux-form';
+import {Control, Form, Errors} from 'react-redux-form';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -10,11 +10,12 @@ const minLength = (len) => (val) => val && (val.length >= len);
 const isNum = (val) => !isNaN(Number(val));
 const validEmail = val => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(val);
 
-function Contact() {
+function Contact(props) {
 
     const handleSubmitChange = values => {
         console.log('Current State is ' + JSON.stringify(values));
         alert('Current State is ' + JSON.stringify(values));
+        props.resetFeedbackForm();
     }
 
     return(
@@ -62,7 +63,7 @@ function Contact() {
                 </div>
 
                 <div className="col-12 col-md-9">
-                    <LocalForm onSubmit={values => handleSubmitChange(values)}>
+                    <Form model="feedback" onSubmit={values => handleSubmitChange(values)}>
                         <Row className='form-group'>
                             <Label htmlFor='firstname' md={2}>First Name</Label>
                             <Col md={10}>
@@ -192,7 +193,7 @@ function Contact() {
                                     </Button>
                                 </Col>
                         </Row>
-                    </LocalForm>
+                    </Form>
                 </div>
             </div>
         </div>

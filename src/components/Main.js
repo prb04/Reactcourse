@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Menu from './Menu';
 import Dishdetail from './Dishdetail'; 
 import Header from "./Header";
@@ -8,7 +8,8 @@ import {connect} from 'react-redux';
 import Home from "./Home";
 import Contact from "./Contact";
 import About from "./About";
-import {addComment ,fetchDishes} from "../redux/ActionCreators"
+import {addComment ,fetchComments,fetchDishes, fetchPromos} from "../redux/ActionCreators"
+import { actions } from "react-redux-form";
 
 const mapStatetoProps = (state) => {
     return{
@@ -21,20 +22,21 @@ const mapStatetoProps = (state) => {
 
 const mapDispatchtoProps = (dispatch) =>({
     addComment: (dishId,rating,author,comment) => dispatch(addComment(dishId,rating,author,comment)),
-    fetchDishes: () => {dispatch(fetchDishes())}
+    fetchDishes: () => {dispatch(fetchDishes())},
+    resetFeedbackForm: () => {dispatch(actions.reset('feedback'))},
+    fetchComments: () => {dispatch(fetchComments())},
+    fetchPromos: () => {dispatch(fetchPromos())},
 })
 
 function Main(props) {
-
-    const[selectedDish, setselectedDish] = useState(null);
     
     useEffect(() => {
         props.fetchDishes();
-    })
+        props.fetchComments();
+        props.fetchPromos();
+    },[])
 
-    function handleClick(dishId){   
-        setselectedDish(dishId)
-    }
+
 
     const HomePage = () => {
         return (
@@ -42,7 +44,9 @@ function Main(props) {
                 dish={props.dishes.dishes.filter(dish => dish.featured)[0]}
                 dishesLoading={props.dishes.isLoading}
                 dishesErrMess={props.dishes.errMess}
-                promotion ={props.promotions.filter(promo => promo.featured)[0]}
+                promotion ={props.promotions.promotions.filter(promo => promo.featured)[0]}
+                promoLoading={props.promotions.isLoading}
+                promoErrMess={props.promotions.errMess}
                 leader ={props.leaders.filter(leader => leader.featured)[0]}
                 
             />        
@@ -55,7 +59,8 @@ function Main(props) {
                 dish={props.dishes.dishes.filter(dish => dish.id === parseInt(match.params.dishId,10))[0]}
                 isLoading={props.dishes.isLoading}
                 errMess={props.dishes.errMess}
-                comment={props.comments.filter(comm => comm.dishId ===parseInt(match.params.dishId,10))}
+                comment={props.comments.comments.filter(comm => comm.dishId ===parseInt(match.params.dishId,10))}
+                commentsErrMess={props.comments.errMess}
                 addComment={props.addComment}
             />
         )
@@ -70,7 +75,7 @@ function Main(props) {
                 <Route exact path="/menu" component={() => <Menu dishes={props.dishes} />} />
                 <Route path="/menu/:dishId" component={DishWithId} />
                 <Route path="/aboutus" component={() => <About leaders={props.leaders} />} />
-                <Route exact path="/contactus" component={Contact} />
+                <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={props.resetFeedbackForm} />} />
                 <Redirect to="/home" />
             </Switch>          
             <Footer />

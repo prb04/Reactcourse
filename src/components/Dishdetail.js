@@ -4,11 +4,12 @@ import { Breadcrumb, BreadcrumbItem, Card, CardImg, CardText, CardBody, CardTitl
 import {Link} from 'react-router-dom'
 import {Control, LocalForm, Errors} from 'react-redux-form';
 import { Loading } from './Loading'
+import { baseURL } from '../shared/baseURL';
 
 function RenderDish({dish}) {
     return(
             <Card>
-                <CardImg width="100" src={dish.image} alt={dish.name} />
+                <CardImg width="100" src={baseURL + dish.image} alt={dish.name} />
                 <CardBody>
                     <CardTitle>{dish.name}</CardTitle>
                     <CardText>{dish.description}</CardText>
@@ -173,7 +174,7 @@ const Dishdetail = (props) => {
             </div>
         )
     }
-    if (props.dish != null) {   
+    else if (props.dish != null) {   
         return (
             <div className="container">
                 <div className="row">
@@ -192,7 +193,7 @@ const Dishdetail = (props) => {
                         <RenderDish dish={props.dish} />
                     </div>
                     
-                    <div className="col-12 col-md-5 m-1">
+                    <div className="col-12 col-md-5 m-1"> 
                         <RenderComments 
                             comments={props.comment} 
                             addComment = {props.addComment} 
