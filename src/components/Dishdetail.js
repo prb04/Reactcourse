@@ -18,7 +18,7 @@ function RenderDish({dish}) {
     );
 }
 
-function RenderComments({comments,dishId,addComment}){
+function RenderComments({comments,dishId,postComment}){
     if (comments != null){
         let comms = comments.map((comm, i) => {            
             return(
@@ -39,7 +39,7 @@ function RenderComments({comments,dishId,addComment}){
                 <h4>Comments</h4>
                 <div>
                     {comms}
-                    <CommentForm dishId={dishId} addComment={addComment}  />
+                    <CommentForm dishId={dishId} postComment={postComment}  />
                 </div>
                 
             </div>
@@ -66,7 +66,7 @@ function CommentForm(props){
     }
 
     const handleSubmit = (values) =>{
-        props.addComment(props.dishId,values.rating,values.author,values.comment)
+        props.postComment(props.dishId,values.rating,values.author,values.comment)
         toggleModal();
     }
 
@@ -196,7 +196,7 @@ const Dishdetail = (props) => {
                     <div className="col-12 col-md-5 m-1"> 
                         <RenderComments 
                             comments={props.comment} 
-                            addComment = {props.addComment} 
+                            postComment = {props.postComment} 
                             dishId = {props.dish.id}
                         />
                     </div>
